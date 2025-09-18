@@ -1,0 +1,47 @@
+name: Streamlit CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Set up Python
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4️⃣ Optional: Run tests
+      - name: Run tests
+        run: |
+          if [ -f "tests/test_app.py" ]; then
+              pytest tests/
+          else
+              echo "No tests found, skipping..."
+          fi
+
+      # 5️⃣ Deploy to Streamlit
+      - name: Deploy to Streamlit
+        env:
+          STREAMLIT_TOKEN: ${{ secrets.STREAMLIT_TOKEN }}
+        run: |
+          echo "Deploying Streamlit app..."
+          streamlit run app.py --server.headless true
