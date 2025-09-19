@@ -24,8 +24,8 @@ jobs:
       # 3️⃣ Build and push Docker image to Docker Hub
       - name: Build and push image
         run: |
-          docker build -t mydockerusername/streamlit-xgb-app:latest .
-          docker push mydockerusername/streamlit-xgb-app:latest
+          docker build -t nanda0798/streamlit-xgb-app:latest .
+          docker push nanda0798/streamlit-xgb-app:latest
 
       # 4️⃣ Deploy on EC2 via SSH
       - name: Deploy to EC2
