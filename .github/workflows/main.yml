@@ -33,10 +33,7 @@ jobs:
         with:
           host: 51.20.42.253           # your EC2 public IP
           username: ubuntu             # your EC2 username
-          key: |
-            -----BEGIN RSA PRIVATE KEY-----
-            ...YOUR PRIVATE KEY HERE...
-            -----END RSA PRIVATE KEY-----
+          key: TEST_KEY
           script: |
             # Stop old container if running
             docker stop streamlit-xgb-app || true
