@@ -24,7 +24,7 @@ model, feature_columns, categorical_columns, shift = load_model()
 # ----------------------------
 # Streamlit UI
 # ----------------------------
-st.title("🏠 House Price Prediction")
+st.title("🚀 CI/CD Test Successful!")
 
 uploaded_file = st.file_uploader("Upload CSV with features only", type=["csv"])
 
