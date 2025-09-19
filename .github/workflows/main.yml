@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -18,10 +18,10 @@ jobs:
       - name: Docker Hub login
         uses: docker/login-action@v2
         with:
-          username: nanda0798       # replace with your Docker Hub username
-          password: Nan@322500        # replace with your Docker Hub password
+          username: nanda0798           # your Docker Hub username
+          password: Nan@322500  # your Docker Hub password stored as secret
 
-      # 3️⃣ Build and push Docker image to Docker Hub
+      # 3️⃣ Build and push Docker image
       - name: Build and push image
         run: |
           docker build -t nanda0798/streamlit-xgb-app:latest .
@@ -31,16 +31,16 @@ jobs:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: 51.20.42.253           # your EC2 public IP
-          username: ubuntu             # your EC2 username
-          key: ${{ secrets.TEST_KEY }}
+          host: ${{ secrets.EC2_HOST }}        # EC2 public IP stored as secret
+          username: ${{ secrets.EC2_USER }}    # EC2 username stored as secret (e.g., ubuntu)
+          key: ${{ secrets.TEST_KEY }}         # private SSH key stored as secret
           script: |
-              # Stop old container if running
-              docker stop streamlit-xgb-app || true
-              docker rm streamlit-xgb-app || true
-            
-              # Pull latest image from Docker Hub
-              docker pull nanda0798/streamlit-xgb-app:latest
-            
-              # Run container
-              docker run -d -p 80:8501 --name streamlit-xgb-app nanda0798/streamlit-xgb-app:latest
+            # Stop old container if running
+            /usr/bin/docker stop streamlit-xgb-app || true
+            /usr/bin/docker rm streamlit-xgb-app || true
+
+            # Pull latest image from Docker Hub
+            /usr/bin/docker pull nanda0798/streamlit-xgb-app:latest
+
+            # Run container mapping port 80 to Streamlit port 8501
+            /usr/bin/docker run -d -p 80:8501 --name streamlit-xgb-app nanda0798/streamlit-xgb-app:latest
